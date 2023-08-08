@@ -1,0 +1,3 @@
+[submodule "external/cmsis-pack-manager"]
+	path = external/cmsis-pack-manager
+	url = git@github.com:huming2207/cmsis-pack-manager.git

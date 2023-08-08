@@ -1,0 +1,53 @@
+[package]
+name = "algo-gen"
+version = "0.1.0"
+authors = ["Jackson Ming Hu <huming2207@gmail.com>"]
+edition = "2021"
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[features]
+default = ["console_error_panic_hook"]
+
+[dependencies]
+probe-rs-target = { version = "0.20.0", default-features = false }
+cmsis-pack = { default-features = false, path = "external/cmsis-pack-manager/rust/cmsis-pack" }
+goblin = { version = "0.7.1", default-features = false, features = [
+    "elf32",
+    "elf64",
+    "endian_fd",
+    "archive",
+    "std",
+] }
+
+wasm-bindgen = "0.2.87"
+
+# The `console_error_panic_hook` crate provides better debugging of panics by
+# logging them with `console.error`. This is great for development, but requires
+# all the `std::fmt` and `std::panicking` infrastructure, so isn't great for
+# code size when deploying.
+console_error_panic_hook = { version = "0.1.7", optional = true }
+scroll = "0.11.0"
+serde_yaml = "^0.9.25"
+log = "0.4.19"
+colored = "2"
+base64 = "0.21.2"
+anyhow = "1.0.72"
+reqwest = { version = "0.11.18", features = ["json", "blocking"] }
+serde = { version = "1", features = ["derive"] }
+futures = "0.3.28"
+xshell = { version = "0.2", default-features = false }
+cargo_metadata = { version = "0.17", default-features = false }
+indicatif = { version = "0.17", default-features = false }
+zip = { version = "0.6.6", default-features = false, features = [ "deflate" ] }
+
+[dev-dependencies]
+wasm-bindgen-test = "0.3.34"
+assert_cmd = "2.0.12"
+predicates = "3.0.3"
+assert_fs = "1.0.13"
+
+[profile.release]
+# Tell `rustc` to optimize for small code size.
+opt-level = "s"
