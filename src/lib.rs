@@ -1,4 +1,8 @@
 mod utils;
+mod algorithm_binary;
+mod elf;
+mod flash_device;
+mod parser;
 
 use wasm_bindgen::prelude::*;
 
