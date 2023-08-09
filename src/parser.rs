@@ -60,7 +60,7 @@ fn extract_flash_device(elf: &goblin::elf::Elf, buffer: &[u8]) -> Result<FlashDe
 /// Extracts a position & memory independent flash algorithm blob from the proveided ELF file.
 pub fn extract_flash_algo(
     mut file: impl std::io::Read,
-    file_name: &std::path::Path,
+    file_name: &str,
     default: bool,
     fixed_load_address: bool,
 ) -> Result<RawFlashAlgorithm> {
@@ -73,7 +73,7 @@ pub fn extract_flash_algo(
 
     let flash_device = extract_flash_device(&elf, &buffer).context(format!(
         "Failed to extract flash information from ELF file '{}'.",
-        file_name.display()
+        file_name
     ))?;
 
     // Extract binary blob.
@@ -119,11 +119,7 @@ pub fn extract_flash_algo(
 
     algo.description = flash_device.name;
 
-    algo.name = file_name
-        .file_stem()
-        .and_then(|f| f.to_str())
-        .unwrap()
-        .to_lowercase();
+    algo.name = file_name.to_lowercase();
     algo.default = default;
     algo.data_section_offset = algorithm_binary.data_section.start as u64;
 

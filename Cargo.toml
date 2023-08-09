@@ -29,7 +29,7 @@ wasm-bindgen = "0.2.87"
 # code size when deploying.
 console_error_panic_hook = { version = "0.1.7", optional = true }
 scroll = "0.11.0"
-serde_yaml = "^0.9.25"
+serde_json = { version = "1.0", default-features = false, features = ["alloc"] }
 log = "0.4.19"
 colored = "2"
 base64 = "0.21.2"
