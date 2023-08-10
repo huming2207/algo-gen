@@ -6,13 +6,8 @@ use anyhow::{anyhow, bail, Context, Error, Result};
 use cmsis_pack::pdsc::{Core, Device, Package, Processor};
 use cmsis_pack::{pack_index::PdscRef, utils::FromElem};
 use futures::StreamExt;
-use probe_rs::config::{
-    Chip, ChipFamily, Core as ProbeCore, GenericRegion, MemoryRegion, NvmRegion, RamRegion,
-    RawFlashAlgorithm,
-};
-use probe_rs::{Architecture, CoreType};
-use probe_rs_target::{ArmCoreAccessOptions, CoreAccessOptions, RiscvCoreAccessOptions};
-use tokio::runtime::Builder;
+
+use probe_rs_target::{ArmCoreAccessOptions, CoreAccessOptions, RiscvCoreAccessOptions, ChipFamily, TargetDescriptionSource, RawFlashAlgorithm, CoreType, Architecture, MemoryRegion, GenericRegion, NvmRegion, RamRegion};
 
 pub(crate) enum Kind<'a, T>
 where
@@ -70,7 +65,7 @@ where
                 pack_file_release: pack_file_release.clone(),
                 variants: Vec::new(),
                 flash_algorithms: Vec::new(),
-                source: probe_rs::config::TargetDescriptionSource::BuiltIn,
+                source: TargetDescriptionSource::BuiltIn,
             });
             // This unwrap is always safe as we insert at least one item previously.
             families.last_mut().unwrap()
