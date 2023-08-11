@@ -1,27 +1,28 @@
-use anyhow::{bail, Context, Result};
 use probe_rs_target::{
     ArmCoreAccessOptions, Chip, ChipFamily, Core, CoreAccessOptions, MemoryRegion, NvmRegion,
     RamRegion, TargetDescriptionSource::BuiltIn, CoreType,
 };
-use std::{
-    fs::{File, OpenOptions},
-    io::{BufRead, Write, Cursor},
-    path::Path,
-};
+use std::io::Cursor;
 
 use crate::parser::extract_flash_algo;
 
+use wasm_bindgen::prelude::*;
+
 /// Prepare a target config based on an ELF file containing a flash algorithm, and return a JSON manifest string
-pub fn cmd_elf(
+#[wasm_bindgen(js_name = "readElfToManifest")]
+pub fn read_elf_to_manifest(
     file: &[u8],
     fixed_load_address: bool,
     algo_name: Option<String>,
     family_name: Option<String>,
     chip_name: Option<String>
-) -> Result<String> {
+) -> Result<String, JsError> {
     let elf_file = Cursor::new(file);
 
-    let mut algorithm = extract_flash_algo(elf_file, "unknown", true, fixed_load_address)?;
+    let mut algorithm = match extract_flash_algo(elf_file, "unknown", true, fixed_load_address) {
+        Ok(algo) => algo,
+        Err(err) => return Err(JsError::new(&err.to_string()))
+    };
 
     if let Some(name) = algo_name {
         algorithm.name = name;
