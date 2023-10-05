@@ -11,7 +11,7 @@ crate-type = ["cdylib", "rlib"]
 default = ["console_error_panic_hook"]
 
 [dependencies]
-probe-rs-target = { version = "0.20.0", default-features = false }
+probe-rs-target = { version = "0.21.0", default-features = false }
 cmsis-pack = { default-features = false, path = "external/cmsis-pack-manager/rust/cmsis-pack" } # To be upstreamed: https://github.com/pyocd/cmsis-pack-manager/pull/216
 goblin = { version = "0.7.1", default-features = false, features = [
     "elf32",
